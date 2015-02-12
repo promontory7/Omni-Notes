@@ -2,8 +2,8 @@ language: java
 
 branches:
   only:
-    - develop
-    - master
+    - travis-ci
+    
 
 jdk: oraclejdk7
 
