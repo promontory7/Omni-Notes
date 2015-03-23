@@ -109,6 +109,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent piDismiss = PendingIntent.getActivity(mContext, 0, dismissIntent, 
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+        //响铃延迟
         Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
         snoozeIntent.setAction(Constants.ACTION_SNOOZE);
         snoozeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
@@ -116,6 +117,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent piSnooze = PendingIntent.getActivity(mContext, 0, snoozeIntent, 
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+
+        //添加提醒
         Intent postponeIntent = new Intent(mContext, SnoozeActivity.class);
         postponeIntent.setAction(Constants.ACTION_POSTPONE);
         postponeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);

@@ -60,11 +60,11 @@ public class KeyboardUtils {
         if (view == null) {
             return;
         }
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);//输入法管理工具
         if (!imm.isActive()) {
             return;
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);//隐藏键盘
 
 //		if (!isKeyboardShowed(view)) {
 //			imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, InputMethodManager.RESULT_HIDDEN);

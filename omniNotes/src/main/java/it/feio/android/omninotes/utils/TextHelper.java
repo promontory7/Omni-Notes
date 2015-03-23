@@ -94,8 +94,8 @@ public class TextHelper {
             return null;
         }
         StringBuilder buf = new StringBuilder(value.substring(start));
-        int indexNewLine = buf.indexOf(System.getProperty("line.separator"));
-        int endIndex = singleLine && indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;
+        int indexNewLine = buf.indexOf(System.getProperty("line.separator"));//获得换行的位置
+        int endIndex = singleLine && indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;//获得最后的位置
         if (endIndex != -1) {
             buf.setLength(endIndex);
             if (elipsize) {

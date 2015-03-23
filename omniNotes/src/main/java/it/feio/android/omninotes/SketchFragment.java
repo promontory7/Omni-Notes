@@ -285,7 +285,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 Uri uri = getArguments().getParcelable(MediaStore.EXTRA_OUTPUT);
                 File bitmapFile = new File(uri.getPath());
                 FileOutputStream out = new FileOutputStream(bitmapFile);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);//压缩图像
                 out.close();
                 if (bitmapFile.exists()) {
 //					if (mOnSketchSavedListener != null) {

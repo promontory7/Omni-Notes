@@ -73,11 +73,11 @@ public class SketchView extends View implements OnTouchListener {
         this.setOnTouchListener(this);
 
         m_Paint = new Paint();
-        m_Paint.setAntiAlias(true);
+        m_Paint.setAntiAlias(true);//设置抗锯齿
         m_Paint.setDither(true);
         m_Paint.setColor(strokeColor);
-        m_Paint.setStyle(Paint.Style.STROKE);
-        m_Paint.setStrokeJoin(Paint.Join.ROUND);
+        m_Paint.setStyle(Paint.Style.STROKE);//填充风格
+        m_Paint.setStrokeJoin(Paint.Join.ROUND);//画笔转弯处连接风格
         m_Paint.setStrokeCap(Paint.Cap.ROUND);
         m_Paint.setStrokeWidth(strokeSize);
 

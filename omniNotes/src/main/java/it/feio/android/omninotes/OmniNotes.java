@@ -40,7 +40,7 @@ import java.util.Locale;
 import it.feio.android.omninotes.utils.BitmapCache;
 import it.feio.android.omninotes.utils.Constants;
 
-
+//ACRA开启崩溃后用户Dialog通知
 @ReportsCrashes(formKey = "", httpMethod = Method.PUT, reportType = Type.JSON, 
         formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report", 
         formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo", 
@@ -62,7 +62,7 @@ public class OmniNotes extends Application {
         mContext = getApplicationContext();
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
         // The following line triggers the initialization of ACRA
-        ACRA.init(this);
+        ACRA.init(this);//ACRA初始化代码，应用崩溃时，会把报告添加到谷歌文档里面去。
         // Instantiate bitmap cache
         mBitmapCache = new BitmapCache(getApplicationContext(), 0, 0, getExternalCacheDir());
         // Checks selected locale or default one
@@ -96,7 +96,7 @@ public class OmniNotes extends Application {
         String language = prefs.getString(PREF_LANG, "");
 
         if (TextUtils.isEmpty(language) && lang == null) {
-            cfg.locale = Locale.getDefault();
+            cfg.locale = Locale.getDefault();//获取系统默认语言
 
             String tmp = "";
             tmp = Locale.getDefault().toString().substring(0, 2);
@@ -127,8 +127,8 @@ public class OmniNotes extends Application {
 
     /*
      * Method to handle basic Google Analytics initialization. This call will not block as all Google Analytics work
-     * occurs off the main thread.
-     */
+    * occurs off the main thread.
+    */
     private void initializeGa() {
         mGa = GoogleAnalytics.getInstance(this);
         mTracker = mGa.getTracker("UA-45502770-1");
@@ -155,7 +155,7 @@ public class OmniNotes extends Application {
      * Returns the Google Analytics instance.
      */
     public static BitmapCache getBitmapCache() {
-        return mBitmapCache;
+         return mBitmapCache;
     }
 
 

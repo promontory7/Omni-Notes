@@ -214,7 +214,7 @@ public class DetailFragment extends Fragment implements
             }
         });
 
-        // Force the navigation drawer to stay closed
+        // Force the navigation drawer to stay closed 关闭抽屉滑动出
         getMainActivity().getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         // Restored temp note after orientation change
@@ -371,7 +371,7 @@ public class DetailFragment extends Fragment implements
             i.setAction(null);
         }
 
-        // Action called from home shortcut
+        // Action called from home shortcut  快捷方式打开
         if (Constants.ACTION_SHORTCUT.equals(i.getAction())
                 || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
             afterSavedReturnsToList = false;
@@ -386,7 +386,7 @@ public class DetailFragment extends Fragment implements
             i.setAction(null);
         }
 
-        // Check if is launched from a widget
+        // Check if is launched from a widget 从widget打开
         if (Constants.ACTION_WIDGET.equals(i.getAction())
                 || Constants.ACTION_TAKE_PHOTO.equals(i.getAction())) {
 
@@ -975,6 +975,7 @@ public class DetailFragment extends Fragment implements
 
         menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
         menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
+
         menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
         menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
         // If note is trashed only this options will be available from menu
@@ -1093,7 +1094,7 @@ public class DetailFragment extends Fragment implements
     /**
      *
      */
-    private void toggleChecklist() {
+    private void   toggleChecklist() {
 
         // In case checklist is active a prompt will ask about many options
         // to decide hot to convert back to simple text
@@ -1148,8 +1149,10 @@ public class DetailFragment extends Fragment implements
 
     @SuppressLint("NewApi")
     private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
-        // Get instance and set options to convert EditText to CheckListView
+        // Get instance
         mChecklistManager = ChecklistManager.getInstance(getActivity());
+
+        //set options to convert EditText to CheckListView----
         mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
                 String.valueOf(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
         mChecklistManager.setShowChecks(true);
@@ -1807,16 +1810,16 @@ public class DetailFragment extends Fragment implements
         }
         recordName = f.getAbsolutePath();
         mRecorder = new MediaRecorder();
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        mRecorder.setAudioEncodingBitRate(16);
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);//设置录制源
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);//设置录制完成后封装格式
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);//设置录制编码
+        mRecorder.setAudioEncodingBitRate(16);//设置录制帧率
         mRecorder.setOutputFile(recordName);
 
         try {
-            mRecorder.prepare();
+            mRecorder.prepare();//准备录制
             audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
-            mRecorder.start();
+            mRecorder.start();//开始录制
         } catch (IOException e) {
             Ln.e("prepare() failed");
         }
@@ -1949,7 +1952,7 @@ public class DetailFragment extends Fragment implements
                 Ln.v("MotionEvent.ACTION_DOWN");
                 int w;
 
-                Point displaySize = Display.getUsableSize(getActivity());
+                Point displaySize = Display.getUsableSize(getActivity());//获得屏幕像素大小
                 w = displaySize.x;
 
                 if (x < Constants.SWIPE_MARGIN || x > w - Constants.SWIPE_MARGIN) {

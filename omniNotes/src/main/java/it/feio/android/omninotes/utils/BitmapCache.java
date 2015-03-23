@@ -30,7 +30,7 @@ import roboguice.util.Ln;
 import java.io.File;
 import java.io.IOException;
 
-
+//图片缓存技术
 public class BitmapCache extends LruCache<String, Bitmap> {
 
     /**
@@ -65,7 +65,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
         mInitCacheTask.execute(diskCacheDirectory);
     }
 
-
+    //异步
     private class InitCacheTask extends AsyncTask<File, Void, Void> {
 
         private int maxDiskSize;

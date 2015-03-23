@@ -79,7 +79,6 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_list, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -101,11 +100,11 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         locationManager = GeocodeHelper.getLocationManager(this, this);
         // Force menu overflow icon
         try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            ViewConfiguration config = ViewConfiguration.get(this);//定义了许多标准的常量（UI超时，大小，距离）
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");//系统用这个值来检验是否有硬件按钮MENU
             if (menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
+                menuKeyField.setAccessible(true);//设置属性级别可访问
+                menuKeyField.setBoolean(config, false);//关闭手机硬件MENU按钮功能
             }
         } catch (Exception ex) {
         }
@@ -347,7 +346,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     protected void animateTransition(FragmentTransaction transaction, int direction) {
         if (direction == TRANSITION_HORIZONTAL) {
             transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support, 
-                    R.animator.fade_in_support, R.animator.fade_out_support);
+                    R.animator.fade_in_support, R.animator.fade_out_support);//自定义转场动画
         }
         if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             transaction.setCustomAnimations(

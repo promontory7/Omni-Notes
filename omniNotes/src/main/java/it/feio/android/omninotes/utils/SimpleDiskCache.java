@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+// disk cache
 public class SimpleDiskCache {
 
     private static final int VALUE_IDX = 0;
@@ -54,7 +54,7 @@ public class SimpleDiskCache {
 
 
     private SimpleDiskCache(File dir, int appVersion, long maxSize) throws IOException {
-        diskLruCache = DiskLruCache.open(dir, appVersion, 2, maxSize);
+        diskLruCache = DiskLruCache.open(dir, appVersion, 2, maxSize);//创建实例
     }
 
 

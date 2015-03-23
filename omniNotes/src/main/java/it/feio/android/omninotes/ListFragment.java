@@ -141,8 +141,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         mFragment = this;
         prefs = getMainActivity().prefs;
 
-        setHasOptionsMenu(true);
-        setRetainInstance(false);
+        setHasOptionsMenu(true);//告知要添加菜单，在OnCreateMenuOption实现
+        setRetainInstance(false);//Fragment 恢复时会跳过oncreate ondestroy方法，提高系统运行效率
     }
 
 
@@ -176,7 +176,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (savedInstanceState != null) {
             getMainActivity().navigationTmp = savedInstanceState.getString("navigationTmp");
         }
-        // Easter egg initialization
+        // Easter egg initialization  初始化无内容时的动画
         initEasterEgg();
         // Listview initialization
         initListView();
@@ -285,7 +285,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     /**
-     * Starts a little animation on Mr.Jingles!
+     * Starts a little animation on Mr.Jingles! 无内容时的动画
      */
     private void initEasterEgg() {
         empyListItem = (TextView) getActivity().findViewById(R.id.empty_list);
@@ -295,6 +295,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             public void onClick(View v) {
                 if (jinglesAnimation == null) {
                     jinglesAnimation = (AnimationDrawable) empyListItem.getCompoundDrawables()[1];
+                    //getCompoundDrawables()该方法返回包含控件左,上,右,下四个位置的Drawable的数组
                     empyListItem.post(new Runnable() {
                         public void run() {
                             if (jinglesAnimation != null) jinglesAnimation.start();
@@ -378,7 +379,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     private final class ModeCallback implements android.support.v7.view.ActionMode.Callback {
 
-        @Override
+        @Override//第一次初始化时调用或者startActionMode方法被调用时
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate the menu for the CAB
             MenuInflater inflater = mode.getMenuInflater();
@@ -386,13 +387,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             actionMode = mode;
 
             fabAllowed = false;
-            hideFab();
+            hideFab();//隐藏悬浮图标
 
             return true;
         }
 
 
-        @Override
+        @Override//当action mode被关闭时调用，
         public void onDestroyActionMode(ActionMode mode) {
             // Here you can make any necessary updates to the activity when
             // the CAB is removed. By default, selected items are
@@ -426,14 +427,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
 
-        @Override
+        @Override//在初始化后和每次重新构建的时候调用  一般在oncreateactionmode方法后被调用
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             prepareActionModeMenu();
             return true;
         }
 
 
-        @Override
+        @Override//当MENU被点击时调用
         public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
             Integer[] protectedActions = {R.id.menu_select_all, R.id.menu_merge};
             if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
@@ -559,7 +560,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     private void initListView() {
         list = (DynamicListView) getActivity().findViewById(R.id.list);
-
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         list.setItemsCanFocus(false);
 
@@ -653,7 +653,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
-    @Override
+    @Override//为Activity的Option Menu提供菜单，会在已有菜单后添加
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -669,18 +669,19 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         final String[] arrayDialog = getResources().getStringArray(R.array.sortable_columns_human_readable);
         int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
 
-        SubMenu sortMenu = this.menu.findItem(R.id.menu_sort).getSubMenu();
+        SubMenu sortMenu = this.menu.findItem(R.id.menu_sort).getSubMenu();//获取子菜单
         for (int i = 0; i < arrayDialog.length; i++) {
             if (sortMenu.findItem(i) == null) {
                 sortMenu.add(Constants.MENU_SORT_GROUP_ID, i, i, arrayDialog[i]);
             }
-            if (i == selected) sortMenu.getItem(i).setChecked(true);
+            if (i == selected)
+                sortMenu.getItem(i).setChecked(true);
         }
         sortMenu.setGroupCheckable(Constants.MENU_SORT_GROUP_ID, true, true);
     }
 
 
-    @Override
+    @Override//在初始化后和每次重新构建的时候调用
     public void onPrepareOptionsMenu(Menu menu) {
         setActionItemsVisibility(menu, false);
     }
@@ -688,38 +689,36 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     private void prepareActionModeMenu() {
         Menu menu = getActionMode().getMenu();
-        int navigation = Navigation.getNavigation();
+        int navigation = Navigation.getNavigation();//获取当前是哪个导航
         boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS
                 || navigation == Navigation.CATEGORY;
         boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.CATEGORY;
 
         if (navigation == Navigation.TRASH) {
-            menu.findItem(R.id.menu_untrash).setVisible(true);
-            menu.findItem(R.id.menu_delete).setVisible(true);
+            menu.findItem(R.id.menu_untrash).setVisible(true);//显示回收
+            menu.findItem(R.id.menu_delete).setVisible(true);//显示删除
         } else {
-            if (getSelectedCount() == 1) {
-                menu.findItem(R.id.menu_share).setVisible(true);
-                menu.findItem(R.id.menu_merge).setVisible(false);
-                menu.findItem(R.id.menu_archive)
-                        .setVisible(showArchive && !getSelectedNotes().get(0).isArchived
-                                ());
-                menu.findItem(R.id.menu_unarchive)
-                        .setVisible(showUnarchive && getSelectedNotes().get(0).isArchived
-                                ());
-            } else {
-                menu.findItem(R.id.menu_share).setVisible(false);
-                menu.findItem(R.id.menu_merge).setVisible(true);
-                menu.findItem(R.id.menu_archive).setVisible(showArchive);
-                menu.findItem(R.id.menu_unarchive).setVisible(showUnarchive);
+            if (getSelectedCount() == 1) //当只选择一个选项的时候
+            {
+                menu.findItem(R.id.menu_share).setVisible(true);//显示共享
+                menu.findItem(R.id.menu_merge).setVisible(false);//隐藏合并
+                menu.findItem(R.id.menu_archive).setVisible(showArchive && !getSelectedNotes().get(0).isArchived());//显示归档
+                menu.findItem(R.id.menu_unarchive).setVisible(showUnarchive && getSelectedNotes().get(0).isArchived());//显示从归档中恢复
+            } else //选择多个选项的时候
+            {
+                menu.findItem(R.id.menu_share).setVisible(false);//隐藏共享
+                menu.findItem(R.id.menu_merge).setVisible(true);//显示合并
+                menu.findItem(R.id.menu_archive).setVisible(showArchive);//显示归档
+                menu.findItem(R.id.menu_unarchive).setVisible(showUnarchive);//显示从归档中合并
 
             }
-            menu.findItem(R.id.menu_category).setVisible(true);
-            menu.findItem(R.id.menu_tags).setVisible(true);
-            menu.findItem(R.id.menu_trash).setVisible(true);
+            menu.findItem(R.id.menu_category).setVisible(true);//显示类别
+            menu.findItem(R.id.menu_tags).setVisible(true);//显示标签
+            menu.findItem(R.id.menu_trash).setVisible(true);//显示删除
         }
-        menu.findItem(R.id.menu_select_all).setVisible(true);
+        menu.findItem(R.id.menu_select_all).setVisible(true);//显示选择所有
 
-        setCabTitle();
+        setCabTitle();//显示已经选择的数目
     }
 
 
@@ -875,58 +874,58 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         getMainActivity().getDrawerLayout().openDrawer(GravityCompat.START);
                     }
                     break;
-                case R.id.menu_filter:
+                case R.id.menu_filter:    //过滤（过时提醒）
                     filterReminders(true);
                     break;
-                case R.id.menu_filter_remove:
+                case R.id.menu_filter_remove:   //移除过滤
                     filterReminders(false);
                     break;
-                case R.id.menu_tags:
+                case R.id.menu_tags:     //标签
                     filterByTags();
                     break;
-                case R.id.menu_sort:
-                    initSortingSubmenu();
+                case R.id.menu_sort:    //排序
+                    initSortingSubmenu();//初始化排序菜单
                     break;
-                case R.id.menu_expanded_view:
+                case R.id.menu_expanded_view:   //展开视图
                     switchNotesView();
                     break;
-                case R.id.menu_contracted_view:
+                case R.id.menu_contracted_view:   //收起视图
                     switchNotesView();
                     break;
-                case R.id.menu_empty_trash:
+                case R.id.menu_empty_trash:  //清空回收站
                     emptyTrash();
                     break;
             }
         } else {
             switch (item.getItemId()) {
-                case R.id.menu_category:
+                case R.id.menu_category:  //分类
                     categorizeNotes();
                     break;
-                case R.id.menu_tags:
+                case R.id.menu_tags:   //标签
                     tagNotes();
                     break;
-                case R.id.menu_share:
+                case R.id.menu_share:   //分享
                     share();
                     break;
-                case R.id.menu_merge:
+                case R.id.menu_merge:    //合并
                     merge();
                     break;
-                case R.id.menu_archive:
+                case R.id.menu_archive:    //归档
                     archiveNotes(true);
                     break;
-                case R.id.menu_unarchive:
+                case R.id.menu_unarchive:   //移除归档
                     archiveNotes(false);
                     break;
-                case R.id.menu_trash:
+                case R.id.menu_trash:      //删除
                     trashNotes(true);
                     break;
-                case R.id.menu_untrash:
+                case R.id.menu_untrash:     //回收
                     trashNotes(false);
                     break;
-                case R.id.menu_delete:
+                case R.id.menu_delete:       //从回收站中删除
                     deleteNotes();
                     break;
-                case R.id.menu_select_all:
+                case R.id.menu_select_all:    //选择所有
                     selectAllNotes();
                     break;
 //                case R.id.menu_synchronize:
@@ -1066,6 +1065,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     }
                 }).build().show();
     }
+
 
 
     /**
@@ -1356,7 +1356,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             listAdapter.remove(note);
             getMainActivity().deleteNote(note);
         }
-        list.clearChoices();
+        list.clearChoices();//取消之前设置的任何选择
         finishActionMode();
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
@@ -1823,13 +1823,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     /**
-     * Excludes past reminders
+     * Excludes past reminders  排除过时提醒
      */
     private void filterReminders(boolean filter) {
         prefs.edit().putBoolean(Constants.PREF_FILTER_PAST_REMINDERS, filter).commit();
         // Change list view
         initNotesList(getActivity().getIntent());
-        // Called to switch menu voices
+        // Called to switch menu voices 修改Menu
         getActivity().supportInvalidateOptionsMenu();
     }
 

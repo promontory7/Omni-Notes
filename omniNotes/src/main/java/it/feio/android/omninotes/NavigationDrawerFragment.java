@@ -84,6 +84,8 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        //当在onCreate()方法中调用了setRetainInstance(true)后，Fragment恢复时会跳过onCreate()和onDestroy()方法
+        //可以在Activity重新创建时可以不完全销毁Fragment，以便Fragment可以恢复
     }
 
 
@@ -344,6 +346,7 @@ public class NavigationDrawerFragment extends Fragment {
                 String navigation = getResources().getStringArray(R.array.navigation_list_codes)[items.get(position)
                         .getArrayIndex()];
                 selectNavigationItem(mDrawerList, position);
+
                 mActivity.updateNavigation(navigation);
                 mDrawerList.setItemChecked(position, true);
                 if (mDrawerCategoriesList != null)
@@ -361,7 +364,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     private boolean checkSkippableItem(int i) {
-        boolean skippable = false;
+        boolean skippable = false;//可跳过的
         SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME,
                 getActivity().MODE_MULTI_PROCESS);
         boolean dynamicMenu = prefs.getBoolean(Constants.PREF_DYNAMIC_MENU, true);

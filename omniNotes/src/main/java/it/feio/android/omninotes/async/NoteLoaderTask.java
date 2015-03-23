@@ -69,7 +69,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		try {
 			method = db.getClass().getDeclaredMethod(methodName, paramClass);
 			notes = (ArrayList<Note>) method.invoke(db,
-					paramClass[0].cast(methodArgs));
+					paramClass[0].cast(methodArgs));//参数1：方法，参数2：参数
 		} catch (Exception e) {
 			Ln.e(e, "Error retrieving notes");
 		}

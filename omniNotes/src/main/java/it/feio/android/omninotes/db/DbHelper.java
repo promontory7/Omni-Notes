@@ -52,8 +52,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_ARCHIVED = "archived";
     public static final String KEY_TRASHED = "trashed";
     public static final String KEY_REMINDER = "alarm";
-    public static final String KEY_LATITUDE = "latitude";
-    public static final String KEY_LONGITUDE = "longitude";
+    public static final String KEY_LATITUDE = "latitude";//纬度
+    public static final String KEY_LONGITUDE = "longitude";//经度
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_CATEGORY = "category_id";
     public static final String KEY_LOCKED = "locked";
@@ -115,7 +115,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             Ln.i("Database creation");
-            execSqlFile(CREATE_QUERY, db);
+            execSqlFile(CREATE_QUERY, db);//创建数据库
         } catch (IOException exception) {
             throw new RuntimeException("Database creation failed", exception);
         }

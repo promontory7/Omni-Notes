@@ -28,12 +28,12 @@ import java.util.Arrays;
 
 public class Navigation {
 
-    public static final int NOTES = 0;
-    public static final int ARCHIVE = 1;
-    public static final int REMINDERS = 2;
-    public static final int TRASH = 3;
-    public static final int UNCATEGORIZED = 4;
-    public static final int CATEGORY = 5;
+    public static final int NOTES = 0;//notes
+    public static final int ARCHIVE = 1;//archive存档
+    public static final int REMINDERS = 2;//reminders提醒
+    public static final int TRASH = 3;//trash
+    public static final int UNCATEGORIZED = 4;//uncategorized
+    public static final int CATEGORY = 5;//category
 
 
     /**

@@ -249,7 +249,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
         boolean result = false;
 
-        // Retrieval of installed app version
+        // Retrieval（检索） of installed app version
         PackageInfo pInfo = mActivity.getPackageManager().getPackageInfo(
                 mActivity.getPackageName(), 0);
         String installedVersion = pInfo.versionName;

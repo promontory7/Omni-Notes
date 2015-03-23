@@ -72,6 +72,8 @@ public class SqlParser {
                         } else if (!line.startsWith("--") && !line.equals("")) {
                             sql.append(" " + line);
                         }
+
+
                     } else if (multiLineComment.equals("/*")) {
                         if (line.endsWith("*/")) {
                             multiLineComment = null;
@@ -100,6 +102,7 @@ public class SqlParser {
         StringBuilder sb = new StringBuilder();
         boolean inLiteral = false;
         char[] content = script.toCharArray();
+
         for (int i = 0; i < script.length(); i++) {
             if (content[i] == '\'') {
                 inLiteral = !inLiteral;
@@ -113,6 +116,7 @@ public class SqlParser {
                 sb.append(content[i]);
             }
         }
+
         if (sb.length() > 0) {
             statements.add(sb.toString().trim());
         }

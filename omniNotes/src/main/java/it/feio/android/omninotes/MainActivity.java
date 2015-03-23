@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
         initUI();
 
-        new UpdaterTask(this).execute();
+        new UpdaterTask(this).execute();//检查更新
     }
 
 
@@ -155,7 +155,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    @Override
+    @Override//launchMode 为singleTsk的时候，通过intent启动一个Activity，如果系统已经存在一个实例，系统就会请求
+             //发送到这个实例上，但是此时并不会处理Oncreate方法，而是调用onnewintent方法
     protected void onNewIntent(Intent intent) {
         if (intent.getAction() == null) {
             intent.setAction(Constants.ACTION_START_APP);
@@ -201,7 +202,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         }
     }
 
-
     public void initNavigationDrawer() {
         Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
         if (f != null) ((NavigationDrawerFragment) f).init();
@@ -242,7 +242,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             setRequestedOrientation(
                     ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
-            mFragmentManager.popBackStack();
+            mFragmentManager.popBackStack();//使前一个Fragment 回到栈顶
             return;
         }
 
@@ -446,7 +446,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         String titleText = note.getTitle();
 
         String contentText = titleText
-                + System.getProperty("line.separator")
+                + System.getProperty("line.separator")//这个平台下的分行符
                 + note.getContent();
 
 

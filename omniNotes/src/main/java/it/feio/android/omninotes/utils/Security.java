@@ -35,14 +35,14 @@ public class Security {
     public static String md5(String s) {
         try {
             // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");//java.security.MessageDigest类提供信息摘要算法功能，此处为MD5算法。
+            digest.update(s.getBytes());//处理数据
+            byte messageDigest[] = digest.digest();//二进制数组
 
             // Create Hex String
             StringBuffer hexString = new StringBuffer();
             for (int i = 0; i < messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));//二进制转HEX字符串
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {

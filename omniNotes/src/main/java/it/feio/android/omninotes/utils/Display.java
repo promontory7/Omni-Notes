@@ -127,6 +127,9 @@ public class Display {
 //	}
 
 
+
+
+    //DisplayMetrics类用于存放一些关于显示的信息（分辨率，显示大小等）
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static Point getScreenDimensions(Context mContext) {
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
@@ -134,8 +137,8 @@ public class Display {
         Point size = new Point();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getRealMetrics(metrics);
-        size.x = metrics.widthPixels;
-        size.y = metrics.heightPixels;
+        size.x = metrics.widthPixels;//屏幕宽度分辨率
+        size.y = metrics.heightPixels;//屏幕高度分辨率
         return size;
     }
 

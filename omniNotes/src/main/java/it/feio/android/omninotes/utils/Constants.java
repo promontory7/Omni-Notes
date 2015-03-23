@@ -51,6 +51,7 @@ public interface Constants {
     // Used for ACRA
     final String ACRA_MAILER_URL = "http://www.iosue.it/federico/apps/acramailer/acra.php?email=";
 
+
     final int THUMBNAIL_SIZE = 300;
 
     final String DATE_SEPARATOR = "/";
